@@ -4,7 +4,7 @@
 extern crate rocket;
 
 fn main() {
-    println!("Hello, world!");
+    rocket::ignite().mount("/", routes![hello]).launch();
 }
 
 #[get("/")]
