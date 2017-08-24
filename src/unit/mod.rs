@@ -44,4 +44,29 @@ impl TelemetryError {
             description: "Unable to convert from measurement",
         }
     }
+
+    /// Creates a telemetry parsing error.
+    /// 
+    /// - `description` a description of the error
+    /// - `source` the string being parsed
+    fn parse(description: &'static str, source: String) -> Self {
+        TelemetryError {
+            kind: TelemetryErrorKind::ParseError(source),
+            cause: None,
+            description,
+        }
+    }
+
+    /// Creates a telemetry parsing error.
+    ///
+    /// - `description` a description of the error
+    /// - `source` the string being parsed
+    /// - `cause` the underlying parsing error
+    fn parse_with_cause<E: Into<Cause>>(description: &'static str, source: String, cause: E) -> Self {
+        TelemetryError {
+            kind: TelemetryErrorKind::ParseError(source),
+            cause: Some(cause.into()),
+            description,
+        }
+    }
 }

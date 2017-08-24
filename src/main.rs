@@ -14,12 +14,7 @@ mod plane;
 use rocket_contrib::Json;
 
 fn main() {
-    rocket::ignite().mount("/", routes![hello]).launch();
-}
-
-#[get("/")]
-fn hello() -> &'static str {
-    "Hi"
+    rocket::ignite().mount("/", routes![tel_heading]).launch();
 }
 
 // Here we have a sample of a telemetry route. It's not at all complete, of course...
@@ -31,13 +26,7 @@ fn hello() -> &'static str {
 // In addition to transforming this json telemetry packet into usable data, we need to store that 
 // data as part of the "airplane's" state.
 
-#[derive(Deserialize)]
-struct Heading {
-    heading: String,
-    measurement: String,
-}
-
 #[post("/telemetry/heading", data = "<heading>")]
-fn tel_heading(heading: Json<Heading>) -> &'static str {
+fn tel_heading(heading: Json<unit::HeadingPayload>) -> &'static str {
     "Ok!"
 }
